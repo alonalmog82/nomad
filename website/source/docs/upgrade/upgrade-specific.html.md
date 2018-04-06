@@ -51,6 +51,15 @@ Raft Protocol versions supported by each Consul version:
 In order to enable all [Autopilot](/guides/cluster/autopilot.html) features, all servers
 in a Nomad cluster must be running with Raft protocol version 3 or later.
 
+### Client APIs Unavailable on Older Nodes
+
+Because Nomad 0.8 uses a new RPC mechanism to route node-specific APIs like
+[`nomad fs`](/docs/commands/fs.html) through servers to the node, 0.8 CLIs are
+incompatible using these commands on clients older than 0.8.
+
+To access these commands on older clients either continue to use a pre-0.8
+version of the CLI, or upgrade all clients to 0.8.
+
 ## Nomad 0.6.0
 
 ### Default `advertise` address changes
