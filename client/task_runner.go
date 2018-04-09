@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"runtime/debug"
 
 	metrics "github.com/armon/go-metrics"
 	"github.com/boltdb/bolt"
@@ -1686,6 +1687,7 @@ func (r *TaskRunner) updateServices(d driver.Driver, h driver.ScriptExecutor, ol
 // associated with the last kill attempt.
 func (r *TaskRunner) handleDestroy(handle driver.DriverHandle) (destroyed bool, err error) {
 	// Cap the number of times we attempt to kill the task.
+	r.logger.Printf("[INFO] Killing task. Called from:\n%s", debug.Stack)
 	for i := 0; i < killFailureLimit; i++ {
 		if err = handle.Kill(); err != nil {
 			// Calculate the new backoff
