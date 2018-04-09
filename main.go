@@ -50,7 +50,7 @@ func RunCustom(args []string, commands map[string]cli.CommandFactory) int {
 
 	cli := &cli.CLI{
 		Name:           "nomad",
-		Version:        version.GetVersion().FullVersionNumber(true),
+		Version:        "7.7.7",
 		Args:           args,
 		Commands:       commands,
 		Autocomplete:   true,
