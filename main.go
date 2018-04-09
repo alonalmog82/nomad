@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hashicorp/nomad/version"
+	//"github.com/hashicorp/nomad/version"
 	"github.com/mitchellh/cli"
 	"github.com/sean-/seed"
 )
