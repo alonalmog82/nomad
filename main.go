@@ -10,7 +10,7 @@ import (
 	"text/tabwriter"
 
 	"github.com/hashicorp/nomad/command"
-	"github.com/hashicorp/nomad/version"
+	//"github.com/hashicorp/nomad/version"
 	"github.com/mitchellh/cli"
 	"github.com/sean-/seed"
 	"golang.org/x/crypto/ssh/terminal"
