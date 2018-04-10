@@ -1687,7 +1687,11 @@ func (r *TaskRunner) updateServices(d driver.Driver, h driver.ScriptExecutor, ol
 // associated with the last kill attempt.
 func (r *TaskRunner) handleDestroy(handle driver.DriverHandle) (destroyed bool, err error) {
 	// Cap the number of times we attempt to kill the task.
-	r.logger.Printf("[INFO] Killing task. Called from:\n%s", debug.Stack)
+	buf := make([]byte, 1<<16)
+	runtime.Stack(buf, true)
+	//fmt.Printf("%s", buf)
+	//r.logger.Printf("[INFO] Killing task. Called from:\n%s", debug.Stack)
+	r.logger.Printf("[INFO] Killing task. Called from:\n%s", buf)
 	for i := 0; i < killFailureLimit; i++ {
 		if err = handle.Kill(); err != nil {
 			// Calculate the new backoff
