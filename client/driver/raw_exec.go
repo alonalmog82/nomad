@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"runtime/debug"
 
 	"github.com/hashicorp/go-plugin"
 	"github.com/hashicorp/nomad/client/allocdir"
@@ -290,6 +291,9 @@ func (h *rawExecHandle) Stats() (*cstructs.TaskResourceUsage, error) {
 
 func (h *rawExecHandle) run() {
 	ps, werr := h.executor.Wait()
+	buf := make([]byte, 1<<16)
+	buf = debug.Stack()
+	r.logger.Printf("[INFO] h.executor.Wait exited. Called from:\n%s", buf)
 	close(h.doneCh)
 	if ps.ExitCode == 0 && werr != nil {
 		if e := killProcess(h.userPid); e != nil {
@@ -299,7 +303,9 @@ func (h *rawExecHandle) run() {
 
 	// Exit the executor
 	if err := h.executor.Exit(); err != nil {
-		h.logger.Printf("[ERR] driver.raw_exec: error killing executor: %v", err)
+			buf = debug.Stack()
+			r.logger.Printf("[INFO] Killing task. Called from:\n%s", buf)
+			h.logger.Printf("[ERR] driver.raw_exec: error killing executor: %v", err)
 	}
 	h.pluginClient.Kill()
 
