@@ -5,7 +5,8 @@ import (
 	"math/rand"
 	"sync"
 	"time"
-
+	"runtime/debug"
+	
 	dstructs "github.com/hashicorp/nomad/client/driver/structs"
 	"github.com/hashicorp/nomad/nomad/structs"
 )
@@ -78,6 +79,9 @@ func (r *RestartTracker) SetWaitResult(res *dstructs.WaitResult) *RestartTracker
 // policy. When failure is false the task is restarted without considering the
 // restart policy.
 func (r *RestartTracker) SetRestartTriggered(failure bool) *RestartTracker {
+	buf := make([]byte, 1<<16)
+	buf = debug.Stack()
+	r.logger.Printf("[INFO] SetRestartTriggered called from:\n%s", buf)
 	r.lock.Lock()
 	defer r.lock.Unlock()
 	if failure {
