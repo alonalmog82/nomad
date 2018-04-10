@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 	"runtime/debug"
+	"log"
 	
 	dstructs "github.com/hashicorp/nomad/client/driver/structs"
 	"github.com/hashicorp/nomad/nomad/structs"
