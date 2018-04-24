@@ -825,6 +825,7 @@ OUTER:
 			// Store the updated allocation.
 			r.allocLock.Lock()
 
+			r.logger.Printf("[DEBUG] GIGYA: run():OUTER 1'%s'", r.allocID)
 			// If the deployment ids have changed clear the health
 			if r.alloc.DeploymentID != update.DeploymentID {
 				r.allocHealth = nil
@@ -841,6 +842,7 @@ OUTER:
 			// Check if we're in a terminal status
 			if update.TerminalStatus() {
 				taskDestroyEvent = structs.NewTaskEvent(structs.TaskKilled)
+				r.logger.Printf("[DEBUG] GIGYA: run():OUTER 2'%s'", r.allocID)
 				break OUTER
 			}
 
@@ -856,6 +858,7 @@ OUTER:
 			}
 		case <-r.ctx.Done():
 			taskDestroyEvent = structs.NewTaskEvent(structs.TaskKilled)
+			r.logger.Printf("[DEBUG] GIGYA: run():OUTER 3'%s'", r.allocID)
 			break OUTER
 		}
 	}
